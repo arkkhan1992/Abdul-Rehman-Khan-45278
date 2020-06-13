@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.ark.automobile.models.Car" />
+
+        <variable
+            name="time"
+            type="String" />
+
+        <variable
+            name="callback"
+            type="com.ark.automobile.callbacks.CarCallback" />
+
+        <variable
+            name="isMine"
+            type="Boolean" />
+
+        <variable
+            name="bullet"
+            type="String" />
+
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/root"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:color/white"
+        android:onClick="@{(v) -> callback.onClick(v, data)}"
+        android:padding="10dp">
+
+        <RelativeLayout
+            android:id="@+id/topLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/avatar"
+                android:layout_width="@dimen/avatar"
+                android:layout_height="@dimen/avatar"
+                android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/person"
+                tools:src="@drawable/person" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_toStartOf="@id/moreOptions"
+                android:layout_toEndOf="@+id/avatar"
+                android:gravity="center_vertical"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/username"
+                    style="@style/BoldTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@{data.sellerName}"
+                    android:textColor="@android:color/black"
+                    android:textSize="@dimen/username"
+                    tools:text="Vincent Tirgei" />
+
+                <TextView
+                    android:id="@+id/postTime"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="1dp"
+                    android:text="@{time}"
+                    android:textColor="@color/timeColor"
+                    android:textSize="@dimen/time"
+                    tools:text="3 minutes ago" />
+
+            </LinearLayout>
+
+            <ImageButton
+                android:id="@+id/moreOptions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:onClick="@{(v) -> callback.onClick(v, data)}"
+                android:padding="10dp"
+                tools:ignore="ContentDescription" />
+
+        </RelativeLayout>
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_below="@id/topLayout"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:onClick="@{(v) -> callback.onClick(v, data)}"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{data.image}"
+            app:riv_corner_radius="2dp"
+            tools:src="@drawable/fozzy" />
+
+        <TextView
+            android:id="@+id/carName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:text="@{data.make + ` ` + data.model}"
+            android:textColor="@color/primaryText"
+            android:textSize="@dimen/username"
+            android:textStyle="bold"
+            tools:text="Subaru Forester XT" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_alignParentEnd="true"
+            android:text="@{data.sold ? `SOLD` : `KES ` + data.price}"
+            android:textColor="@{data.sold ? @color/red : @color/primaryText}"
+            android:textSize="@dimen/username"
+            tools:text="KES 700000" />
+
+        <TextView
+            android:id="@+id/features"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/carName"
+            android:layout_marginTop="3dp"
+            android:text="@{data.year + bullet + data.mileage + `km` + bullet + data.transmission}"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/location"
+            tools:text="@string/sample_features" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/features"
+            android:layout_marginTop="3dp"
+            android:drawablePadding="2dp"
+            android:text="@{data.location}"
+            android:textColor="@color/secondaryText"
+            android:textSize="@dimen/location"
+            tools:text="Mombasa rd" />
+
+        <LinearLayout
+            android:id="@+id/buttons_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/location"
+            android:layout_marginTop="5dp"
+            android:orientation="horizontal"
+            android:weightSum="4">
+
+            <Button
+                android:id="@+id/action"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginEnd="5dp"
+                android:layout_weight="2.7"
+                android:background="@{isMine ? @drawable/rounded_orange_button : @drawable/rounded_button}"
+                android:onClick="@{(v) -> callback.onClick(v, data)}"
+                android:text="@{isMine ? `Mark as sold` : `More details`}"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                tools:background="@drawable/rounded_button"
+                tools:text="Mark as sold" />
+
+            <Button
+                android:id="@+id/contact"
+                android:layout_width="0dp"
+                android:layout_height="35dp"
+                android:layout_marginStart="5dp"
+                android:layout_weight="1.3"
+                android:background="@{isMine ? @drawable/rounded_orange_button : @drawable/rounded_button}"
+                android:onClick="@{(v) -> callback.onClick(v, data)}"
+                android:text="@{isMine ? `Edit` : `Contact`}"
+                android:textAllCaps="false"
+                android:textColor="@android:color/white"
+                tools:background="@drawable/rounded_button"
+                tools:text="Edit" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+</layout>
+

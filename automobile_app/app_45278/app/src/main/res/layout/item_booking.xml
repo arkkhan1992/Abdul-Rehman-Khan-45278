@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="data"
+            type="com.ark.automobile.models.Booking" />
+
+        <variable
+            name="time"
+            type="String" />
+
+        <variable
+            name="isMine"
+            type="Boolean" />
+
+    </data>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="2dp"
+        android:background="@android:color/white"
+        android:padding="10dp">
+
+        <com.ark.automobile.utils.SquareLayout
+            android:id="@+id/image_layout"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_marginEnd="10dp">
+
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{data.image}"
+                tools:src="@drawable/fozzy" />
+
+        </com.ark.automobile.utils.SquareLayout>
+
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_layout"
+            android:text="@{data.name}"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/username"
+            android:textStyle="bold"
+            tools:text="Subaru Forester" />
+
+        <TextView
+            android:id="@+id/user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/name"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/image_layout"
+            android:drawablePadding="5dp"
+            android:text="@{isMine ? data.bookerName : data.sellerName}"
+            android:textColor="@color/secondaryText"
+            tools:text="John Makena" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user"
+            android:layout_marginTop="3dp"
+            android:layout_toEndOf="@id/image_layout"
+            android:drawablePadding="5dp"
+            android:text="@{data.dateBooked + `, ` + data.timeBooked}"
+            android:textColor="@color/secondaryText"
+            tools:text="Thursday 28, 9:00am" />
+
+    </RelativeLayout>
+
+</layout>
